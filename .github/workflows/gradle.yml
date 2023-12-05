@@ -18,9 +18,7 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest # this can be run on a self hosted env
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
