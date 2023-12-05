@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
-        List<Integer> numbers = new ArrayList<>();
-        numbers.add(5);
+  public static void main(String[] args) {
+    System.out.println("Hello world!" );
+    List<Integer> numbers = new ArrayList<>();
+    numbers.add(5);
+    numbers.add(9);
+    numbers.add(2);
+    numbers.add(7);
 
-        numbers.add(9);
-        numbers.add(2);
+    printNumbers(numbers);
+  }
 
-        numbers.add(7);
+  public static void printNumbers(List<Integer> numbers) {
+    System.out.println("This is a list of numbers: ");
 
-        printNumbers(numbers);
+    for (int i = 0; i < numbers.size(); i++) {
+      System.out.println(numbers.get(i));
     }
-
-    public static void printNumbers(List<Integer> numbers) {
-        System.out.println("This is a list of numbers: ");
-        for (int i = 0; i < numbers.size(); i++)
-            System.out.println(numbers.get(i));
-    }
+  }
 }
