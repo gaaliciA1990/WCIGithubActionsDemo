@@ -18,9 +18,10 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew test
+
       # This section will generate a code coverage badge, upload it, and commit the badge if changed
       - name: Generate JaCoCo Badge
-        id: jacoco
+        id: jacocoBadge
         uses: cicirello/jacoco-badge-generator@v2
         with:
           jacoco-csv-file: ./build/reports/jacoco/test/jacocoTestReport.csv
@@ -43,7 +44,7 @@ jobs:
 
       # This section will create the coverage report for the PR, added as a comment
       - name: Add coverage to PR
-        id: jacoco
+        id: jacocoPR
         uses: madrapps/jacoco-report@v1.6.1
         with:
           paths: |
