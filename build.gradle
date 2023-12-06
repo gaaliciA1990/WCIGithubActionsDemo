@@ -45,4 +45,4 @@ spotless {
     }
 }
 
-build.dependsOn = [spotlessCheck]
+build.dependsOn = [spotlessCheck, test]
