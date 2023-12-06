@@ -27,6 +27,7 @@ test {
 
 jacocoTestReport {
     reports {
+        csv.required = true
         xml.required = true
     }
 }
@@ -34,12 +35,12 @@ jacocoTestReport {
 // Autoformat code using googleJavaFormat with spotless task
 spotless {
     java {
+        //refactors code, but breaks style. Done before formatter
+        cleanthat()
         removeUnusedImports()
         trimTrailingWhitespace()
         endWithNewline()
-        //refactors code, but breaks style. Done before formatter
-        cleanthat()
-        // format code based on googleJavaFormat (not all feature enabled)
+        // format code based on googleJavaFormat (not all features enabled)
         googleJavaFormat('1.18.1')
     }
 }
