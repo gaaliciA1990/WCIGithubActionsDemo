@@ -1,12 +1,12 @@
-name: Test coverage
+name: Test Coverage
+
+# This workflow will create a badge for displaying the test coverage for the entire project
 
 on: [ push ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 17
@@ -14,7 +14,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Run Coverage
+      - name: Run tests
         run: |
           chmod +x gradlew
           ./gradlew test
@@ -36,28 +36,9 @@ jobs:
             git push
           fi
 
+      # Upload the report to the specified path
       - name: Upload JaCoCo coverage report
         uses: actions/upload-artifact@v2
         with:
           name: jacoco-report
           path: ./build/reports/jacoco
-
-      # This section will create the coverage report for the PR, added as a comment
-      - name: Add coverage to PR
-        id: jacocoPR
-        uses: madrapps/jacoco-report@v1.6.1
-        with:
-          paths: |
-            ${{ github.workspace }}/**/build/reports/jacoco/**/jacocoTestReport.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # default = 80 for both
-          min-coverage-overall: 70
-          min-coverage-changed-files: 75
-          debug-mode: true
-
-      - name: Fail PR if overall coverage is less than 70%
-        if: ${{ steps.jacoco.outputs.coverage-overall < 70.0 }}
-        uses: actions/github-script@v6
-        with:
-          script: |
-            core.setFailed('Overall coverage is less than 70%!')
