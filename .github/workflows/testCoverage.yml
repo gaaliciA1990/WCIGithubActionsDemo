@@ -2,7 +2,9 @@ name: Test Coverage
 
 # This workflow will create a badge for displaying the test coverage for the entire project
 
-on: [ push ]
+on:
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -19,7 +21,7 @@ jobs:
           chmod +x gradlew
           ./gradlew test
 
-      # This section will generate a code coverage badge, upload it, and commit the badge if changed
+      # This section generates a code coverage badge, uploads the csv, and commits the badge if changed
       - name: Generate JaCoCo Badge
         id: jacocoBadge
         uses: cicirello/jacoco-badge-generator@v2
@@ -42,3 +44,31 @@ jobs:
         with:
           name: jacoco-report
           path: ./build/reports/jacoco
+
+      # Create the coverage report and add it to the PR as a comment
+      - name: Add Jacoco coverage to PR
+        id: jacocoPR
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: ./build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # default = 80 for both
+          min-coverage-overall: 70
+          min-coverage-changed-files: 75
+          debug-mode: true
+          continue-on-error: true
+          title: Code coverage report
+          update-comment: true
+
+      - name: Get the Coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacocoPR.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacocoPR.outputs.coverage-changed-files }}"
+
+      # If the minimum coverage is not met, the action will fail
+      - name: Fail PR if overall coverage is less than required
+        if: ${{ steps.jacocoPR.outputs.coverage-overall < 70.0 }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed('Overall coverage is less than 50%!')
