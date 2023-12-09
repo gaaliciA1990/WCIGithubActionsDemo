@@ -38,19 +38,12 @@ jobs:
 
       - name: Get the Coverage info
         run: |
-          echo "STEP 1"
-          echo "Total coverage ${{ steps }}"
-          echo "STEP 2"
-          echo "Total coverage ${{ steps.jacoco }}"
-          echo "STEP 3"
-          echo "Total coverage ${{ steps.jacoco.outputs }}"
-          echo "STEP 4"
-          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
-          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
+          echo "Total coverage ${{ steps.jacocoPR.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacocoPR.outputs.coverage-changed-files }}"
 
       # If the minimum coverage is not met, the action will fail
       - name: Fail PR if overall coverage is less than required
-        if: ${{ steps.jacoco.outputs.coverage-overall < 50.0 }}
+        if: ${{ steps.jacocoPR.outputs.coverage-overall < 50.0 }}
         uses: actions/github-script@v6
         with:
           script: |
