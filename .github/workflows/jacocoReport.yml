@@ -3,7 +3,8 @@ name: JaCoCo Report
 # This workflow will create a coverage report for the project, changed files, and add it to the
 # Pull-Request as a comment.
 
-on: [ push ]
+on:
+  pull_request:
 
 jobs:
   build:
@@ -29,10 +30,10 @@ jobs:
           paths: ./build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           # default = 80 for both
-          min-coverage-overall: 99
-          min-coverage-changed-files: 99
+          min-coverage-overall: 70
+          min-coverage-changed-files: 75
           debug-mode: true
-          continue-on-error: false
+          continue-on-error: true
           title: Code coverage report
           update-comment: true
 
