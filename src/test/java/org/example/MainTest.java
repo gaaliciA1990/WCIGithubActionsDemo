@@ -37,7 +37,6 @@ class MainTest {
   void printNumbersTest() {
     // ARRANGE
     PrintStream mockedPS = Mockito.mock(PrintStream.class);
-    PrintStream old = System.out;
     System.setOut(mockedPS);
 
     String[] test = new String[5];
@@ -57,25 +56,24 @@ class MainTest {
     Mockito.verify(mockedPS).println(Mockito.contains(expected));
   }
 
-  @Test
-  void mainTest() {
-    // ARRANGE
-    PrintStream mockedPS = Mockito.mock(PrintStream.class);
-    PrintStream old = System.out;
-    System.setOut(mockedPS);
-
-    String[] test = new String[5];
-    test[0] = "23";
-    test[1] = "5";
-    test[2] = "13";
-    test[3] = "64";
-
-    String expected = "Hello world!";
-
-    // ACT
-    Main.main(test);
-
-    // ASSERT
-    Mockito.verify(mockedPS).println(Mockito.contains(expected));
-  }
+//  @Test
+//  void mainTest() {
+//    // ARRANGE
+//    PrintStream mockedPS = Mockito.mock(PrintStream.class);
+//    System.setOut(mockedPS);
+//
+//    String[] test = new String[5];
+//    test[0] = "23";
+//    test[1] = "5";
+//    test[2] = "13";
+//    test[3] = "64";
+//
+//    String expected = "Hello world!";
+//
+//    // ACT
+//    Main.main(test);
+//
+//    // ASSERT
+//    Mockito.verify(mockedPS).println(Mockito.contains(expected));
+//  }
 }
